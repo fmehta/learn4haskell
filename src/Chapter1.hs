@@ -489,7 +489,7 @@ Implement a function that returns the last digit of a given number.
   whether it works for you!
 -}
 lastDigit :: Int -> Int
-lastDigit n = mod n 10
+lastDigit n = mod (abs n) 10
 
 
 {- |
@@ -638,10 +638,12 @@ Try to introduce variables in this task (either with let-in or where) to avoid
 specifying complex expressions.
 -}
 
-sumLast2 :: Integral a => a -> a
-sumLast2 n = a + b where
-  a = n `mod` 10
-  b = ((n `mod` 100) - a) `div` 10
+sumLast2 :: Int -> Int
+sumLast2 n =
+    let lastTwo = mod (abs n) 100
+        (second, first) = divMod lastTwo 10
+    in second + first
+
 
 
 {- |
@@ -664,6 +666,7 @@ aren't ready for this boss yet!
 
 firstDigit :: Integral t => t -> t
 firstDigit n
+  | n < 0 = firstDigit (abs n)
   | n < 10 = n
   | otherwise = firstDigit (n `div` 10)
 
